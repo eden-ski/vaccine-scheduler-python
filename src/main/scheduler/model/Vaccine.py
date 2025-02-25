@@ -15,13 +15,13 @@ class Vaccine:
         conn = cm.create_connection()
         cursor = conn.cursor()
 
-        get_vaccine = "SELECT Name, Doses FROM Vaccines WHERE Name = %s"
+        get_vaccine = "SELECT Name, Doses FROM Vaccines WHERE Name = ?"
         try:
-            cursor.execute(get_vaccine, self.vaccine_name)
+            cursor.execute(get_vaccine, (self.vaccine_name,))
             for row in cursor:
                 self.available_doses = row[1]
                 return self
-        except sqlite3.Error
+        except sqlite3.Error:
             # print("Error occurred when getting Vaccine")
             raise
         finally:
@@ -42,7 +42,7 @@ class Vaccine:
         conn = cm.create_connection()
         cursor = conn.cursor()
 
-        add_doses = "INSERT INTO VACCINES VALUES (%s, %d)"
+        add_doses = "INSERT INTO VACCINES VALUES (?, ?)"
         try:
             cursor.execute(add_doses, (self.vaccine_name, self.available_doses))
             # you must call commit() to persist your data if you don't set autocommit to True
@@ -63,7 +63,7 @@ class Vaccine:
         conn = cm.create_connection()
         cursor = conn.cursor()
 
-        update_vaccine_availability = "UPDATE vaccines SET Doses = %d WHERE name = %s"
+        update_vaccine_availability = "UPDATE vaccines SET Doses = ? WHERE name = ?"
         try:
             cursor.execute(update_vaccine_availability, (self.available_doses, self.vaccine_name))
             # you must call commit() to persist your data if you don't set autocommit to True
@@ -84,7 +84,7 @@ class Vaccine:
         conn = cm.create_connection()
         cursor = conn.cursor()
 
-        update_vaccine_availability = "UPDATE vaccines SET Doses = %d WHERE name = %s"
+        update_vaccine_availability = "UPDATE vaccines SET Doses = ? WHERE name = ?"
         try:
             cursor.execute(update_vaccine_availability, (self.available_doses, self.vaccine_name))
             # you must call commit() to persist your data if you don't set autocommit to True

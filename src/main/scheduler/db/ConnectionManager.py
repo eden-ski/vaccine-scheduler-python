@@ -10,7 +10,8 @@ class ConnectionManager:
 
     def create_connection(self):
         try:
-            self.conn = sqlite3.connect(db_path)
+            self.conn = sqlite3.connect(self.db_path)
+            self.conn.row_factory = sqlite3.Row
         except sqlite3.Error as db_err:
             print("Database Programming Error in SQL connection processing!")
             print(db_err)

@@ -17,11 +17,11 @@ class Caregiver:
     def get(self):
         cm = ConnectionManager()
         conn = cm.create_connection()
-        cursor = conn.cursor(as_dict=True)
+        cursor = conn.cursor()
 
-        get_caregiver_details = "SELECT Salt, Hash FROM Caregivers WHERE Username = %s"
+        get_caregiver_details = "SELECT Salt, Hash FROM Caregivers WHERE Username = ?"
         try:
-            cursor.execute(get_caregiver_details, self.username)
+            cursor.execute(get_caregiver_details, (self.username,))
             for row in cursor:
                 curr_salt = row['Salt']
                 curr_hash = row['Hash']
@@ -55,7 +55,7 @@ class Caregiver:
         conn = cm.create_connection()
         cursor = conn.cursor()
 
-        add_caregivers = "INSERT INTO Caregivers VALUES (%s, %s, %s)"
+        add_caregivers = "INSERT INTO Caregivers VALUES (?, ?, ?)"
         try:
             cursor.execute(add_caregivers, (self.username, self.salt, self.hash))
             # you must call commit() to persist your data if you don't set autocommit to True
@@ -71,7 +71,7 @@ class Caregiver:
         conn = cm.create_connection()
         cursor = conn.cursor()
 
-        add_availability = "INSERT INTO Availabilities VALUES (%s , %s)"
+        add_availability = "INSERT INTO Availabilities VALUES (? , ?)"
         try:
             cursor.execute(add_availability, (d, self.username))
             # you must call commit() to persist your data if you don't set autocommit to True

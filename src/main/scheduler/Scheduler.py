@@ -62,10 +62,10 @@ def username_exists_caregiver(username):
     cm = ConnectionManager()
     conn = cm.create_connection()
 
-    select_username = "SELECT * FROM Caregivers WHERE Username = %s"
+    select_username = "SELECT * FROM Caregivers WHERE Username = ?"
     try:
-        cursor = conn.cursor(as_dict=True)
-        cursor.execute(select_username, username)
+        cursor = conn.cursor()
+        cursor.execute(select_username, (username,))
         #  returns false if the cursor is not before the first record or if there are no rows in the ResultSet.
         for row in cursor:
             return row['Username'] is not None
