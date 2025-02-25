@@ -1,1 +1,1 @@
-pymssql
+sqlite3

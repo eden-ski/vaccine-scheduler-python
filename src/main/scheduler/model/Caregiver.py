@@ -1,9 +1,9 @@
+import sqlite3
 import sys
 sys.path.append("../util/*")
 sys.path.append("../db/*")
 from util.Util import Util
 from db.ConnectionManager import ConnectionManager
-import pymssql
 
 
 class Caregiver:
@@ -35,7 +35,7 @@ class Caregiver:
                     self.hash = calculated_hash
                     cm.close_connection()
                     return self
-        except pymssql.Error as e:
+        except sqlite3.Error as e:
             raise e
         finally:
             cm.close_connection()
@@ -60,7 +60,7 @@ class Caregiver:
             cursor.execute(add_caregivers, (self.username, self.salt, self.hash))
             # you must call commit() to persist your data if you don't set autocommit to True
             conn.commit()
-        except pymssql.Error:
+        except sqlite3.Error:
             raise
         finally:
             cm.close_connection()
@@ -76,7 +76,7 @@ class Caregiver:
             cursor.execute(add_availability, (d, self.username))
             # you must call commit() to persist your data if you don't set autocommit to True
             conn.commit()
-        except pymssql.Error:
+        except sqlite3:
             # print("Error occurred when updating caregiver availability")
             raise
         finally:

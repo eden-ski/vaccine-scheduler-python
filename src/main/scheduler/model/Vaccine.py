@@ -1,7 +1,7 @@
+import sqlite3
 import sys
 sys.path.append("../db/*")
 from db.ConnectionManager import ConnectionManager
-import pymssql
 
 
 class Vaccine:
@@ -21,7 +21,7 @@ class Vaccine:
             for row in cursor:
                 self.available_doses = row[1]
                 return self
-        except pymssql.Error:
+        except sqlite3.Error
             # print("Error occurred when getting Vaccine")
             raise
         finally:
@@ -47,7 +47,7 @@ class Vaccine:
             cursor.execute(add_doses, (self.vaccine_name, self.available_doses))
             # you must call commit() to persist your data if you don't set autocommit to True
             conn.commit()
-        except pymssql.Error:
+        except sqlite3.Error:
             # print("Error occurred when insert Vaccines")
             raise
         finally:
@@ -68,7 +68,7 @@ class Vaccine:
             cursor.execute(update_vaccine_availability, (self.available_doses, self.vaccine_name))
             # you must call commit() to persist your data if you don't set autocommit to True
             conn.commit()
-        except pymssql.Error:
+        except sqlite3.Error:
             # print("Error occurred when updating vaccine availability")
             raise
         finally:
@@ -89,7 +89,7 @@ class Vaccine:
             cursor.execute(update_vaccine_availability, (self.available_doses, self.vaccine_name))
             # you must call commit() to persist your data if you don't set autocommit to True
             conn.commit()
-        except pymssql.Error:
+        except sqlite3.Error:
             # print("Error occurred when updating vaccine availability")
             raise
         finally:

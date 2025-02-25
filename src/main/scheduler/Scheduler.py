@@ -3,7 +3,7 @@ from model.Caregiver import Caregiver
 from model.Patient import Patient
 from util.Util import Util
 from db.ConnectionManager import ConnectionManager
-import pymssql
+import sqlite3
 import datetime
 
 
@@ -47,7 +47,7 @@ def create_caregiver(tokens):
     # save to caregiver information to our database
     try:
         caregiver.save_to_db()
-    except pymssql.Error as e:
+    except sqlite3.Error as e:
         print("Failed to create user.")
         print("Db-Error:", e)
         quit()
@@ -69,7 +69,7 @@ def username_exists_caregiver(username):
         #  returns false if the cursor is not before the first record or if there are no rows in the ResultSet.
         for row in cursor:
             return row['Username'] is not None
-    except pymssql.Error as e:
+    except sqlite3.Error as e:
         print("Error occurred when checking username")
         print("Db-Error:", e)
         quit()
@@ -107,7 +107,7 @@ def login_caregiver(tokens):
     caregiver = None
     try:
         caregiver = Caregiver(username, password=password).get()
-    except pymssql.Error as e:
+    except sqlite3.Error as e:
         print("Login failed.")
         print("Db-Error:", e)
         quit()
@@ -160,7 +160,7 @@ def upload_availability(tokens):
     try:
         d = datetime.datetime(year, month, day)
         current_caregiver.upload_availability(d)
-    except pymssql.Error as e:
+    except sqlite3.Error as e:
         print("Upload Availability Failed")
         print("Db-Error:", e)
         quit()
@@ -199,7 +199,7 @@ def add_doses(tokens):
     vaccine = None
     try:
         vaccine = Vaccine(vaccine_name, doses).get()
-    except pymssql.Error as e:
+    except sqlite3.Error as e:
         print("Error occurred when adding doses")
         print("Db-Error:", e)
         quit()
@@ -214,7 +214,7 @@ def add_doses(tokens):
         vaccine = Vaccine(vaccine_name, doses)
         try:
             vaccine.save_to_db()
-        except pymssql.Error as e:
+        except sqlite3.Error as e:
             print("Error occurred when adding doses")
             print("Db-Error:", e)
             quit()
@@ -226,7 +226,7 @@ def add_doses(tokens):
         # if the vaccine is not null, meaning that the vaccine already exists in our table
         try:
             vaccine.increase_available_doses(doses)
-        except pymssql.Error as e:
+        except sqlite3.Error as e:
             print("Error occurred when adding doses")
             print("Db-Error:", e)
             quit()
