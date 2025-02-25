@@ -314,13 +314,6 @@ def start():
 
 
 if __name__ == "__main__":
-    '''
-    // pre-define the three types of authorized vaccines
-    // note: it's a poor practice to hard-code these values, but we will do this ]
-    // for the simplicity of this assignment
-    // and then construct a map of vaccineName -> vaccineObject
-    '''
-
     # start command line
     print()
     print("Welcome to the COVID-19 Vaccine Reservation Scheduling Application!")
